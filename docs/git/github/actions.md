@@ -1,0 +1,52 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-03-25 07:23:02
+ * @LastEditTime: 2022-06-25 15:00:09
+ * @LastEditors: 程英明
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \doc-man\docs\git\github\actions.md
+-->
+### 相关信息
+- 手册：https://docs.github.com/cn/actions
+- 包查询：https://github.com/marketplace?category=&query=&type=actions&verification=
+- 阮一峰教程：http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html
+- 别人博客：https://didiheng.com/front/2019-12-11.html#github-action%E9%85%8D%E7%BD%AE
+### 语法
+```shell
+# 一个 workflow，名字为Github Action Example
+name: Github Action Example
+# 触发 workflow 的事件
+on:
+  push:
+    # 分支随意
+    branches:
+      - master
+
+# 一个workflow由执行的一项或多项job
+jobs:
+    # 一个job任务，任务名为build
+    build:
+        # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
+        runs-on: ubuntu-latest
+        # steps是每个Job的运行步骤，可以包含一个或多个步骤
+        steps:
+            # action命令，切换分支获取源码
+            - name: Checkout
+                # 使用action库  actions/checkout获取源码
+                uses: actions/checkout@master
+            # action命令，安装Node10
+            - name: use Node.js 10
+                # 使用action库  actions/setup-node安装node
+                uses: actions/setup-node@v1
+                with:
+                    node-version: 10
+            # action命令，install && test
+            - name: npm install and test
+                # 运行的命令或者 action
+                run: |
+                    npm install
+                    npm run test
+                # 环境变量
+                env:
+                    CI: true
+```
